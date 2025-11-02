@@ -36,7 +36,7 @@ jobs:
           echo -e '\n\n' | pmbootstrap init || true
           cd ~/.local/var/pmbootstrap/cache_git/pmaports
           git remote
-          git remote add pipa https://github.com/pipa-project/pmaports-pipa.git
+          git remote add pipa https://github.com/nikkokada/pmaports-pipa.git
           DEFAULT_BRANCH=$(git remote show pipa | awk '/HEAD branch/ {print $NF}')
           git fetch pipa $DEFAULT_BRANCH
           git reset --hard pipa/$DEFAULT_BRANCH
