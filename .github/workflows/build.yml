@@ -55,13 +55,35 @@ jobs:
         with:
           duration: 30m
           authorized-users: nixxizlab
-      
+
       - name: Upload artifacts xiaomi-pipa without DE
         uses: actions/upload-artifact@v4
         with:
            name: xiaomi-pipa-none
            path: out/*.img*
            retention-days: 7
+
+      - name: Build the xiaomi-pipa with GNOME
+        run: |
+             yes | pmbootstrap zap
+             rm -r out/*
+             pmbootstrap install --password 147147 --add postmarketos-ui-gnome
+             pmbootstrap export
+             cp /tmp/postmarketOS-export/boot.img out/boot-xiaomi-pipa.img
+             cp /tmp/postmarketOS-export/xiaomi-pipa.img out/rootfs-xiaomi-pipa-gnome.img
+
+      - name: Breakpoint if tests failed for xiaomi-pipa with GNOME
+        if: failure()
+        uses: namespacelabs/breakpoint-action@v0
+        with:
+          duration: 30m
+          authorized-users: nixxizlab
+            
+      - name: Upload artifacts xiaomi-pipa with GNOME
+        uses: actions/upload-artifact@v4
+        with:
+           name: xiaomi-pipa-gnome
+           path: out/*.img*
            
       - name: Copy xiaomi-pipa kernel
         run: |
